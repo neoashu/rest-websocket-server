@@ -21,6 +21,23 @@ var socket_holder = null;
 
 function restToWebsocket (req, res) {
 	console.log("got request");
+	if(socket_holder == null || typeof(socket_holder) == 'undefined' ){
+		 try {
+				res.status(503);
+
+				//if (req.accepts('html')) {
+				//  res.render('error/503', { title:'503: Service //Unavailable', error: '503: Service Unavailable', //url:// req.url });
+				//}
+
+				//if (req.accepts('json')) {
+				  res.send({ title: 'Service Unavailable'});
+				//}
+				
+            } catch (err) {
+                console.log(err);
+            }
+			return;
+	}
 	//res.setHeader('Content-Type', 'application/json');
     
 //	socket_holder.emit('ws-request', {
@@ -89,6 +106,12 @@ socket_io.on('connection', function(client) {
            client.emit('broad', data);
            client.broadcast.emit('broad',data);
     });
+	
+	client.on('disconnect', function() {
+      console.log('Got disconnect!');
+
+      socket_holder = null;
+   });
 
 });
 // Our handler function is passed a request and response object
