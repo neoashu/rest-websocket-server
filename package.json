@@ -14,6 +14,10 @@
   ],
   "author": "neoashu@gmail.com",
   "license": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/neoashu/rest-websocket-server"
+  },
   "dependencies": {
     "body-parser": "^1.18.3",
     "express": "^4.16.3",
