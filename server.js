@@ -65,8 +65,10 @@ function restToWebsocket (req, res) {
 			console.log("got response"+JSON.stringify(ws_response));
             try {
 				res.statusCode= ws_response.statusCode;
-				res.setHeader('content-type',ws_response['content-type']);
-                res.send(ws_response.body);
+				if(ws_response['content-type'] != null){
+					res.setHeader('content-type',ws_response['content-type']);
+                }
+				res.send(ws_response.body);
             } catch (err) {
                 console.log(err);
             }
