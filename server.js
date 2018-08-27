@@ -89,9 +89,21 @@ function respondViaWebsocket(res,ws_response) {
 }
  */
 
+var rawBodySaver = function (req, res, buf, encoding) {
+  if (buf && buf.length) {
+    req.rawBody = buf.toString(encoding || 'utf8');
+  }
+}
+
+
 app.use(express.static(__dirname + '/node_modules'));
-app.use(bodyParser.json()); // support json encoded bodies
-app.use(bodyParser.urlencoded({extended: false})); // support encoded bodies
+app.use(bodyParser.json({ verify: rawBodySaver }));
+//app.use(bodyParser.urlencoded({ verify: rawBodySaver, extended: true }));
+app.use(bodyParser.raw({ verify: rawBodySaver, type: function () { return true } }));
+
+//app.use(bodyParser.raw()); // support raw
+//app.use(bodyParser.json()); // support json encoded bodies
+//app.use(bodyParser.urlencoded({extended: false})); // support encoded bodies
 server.listen(server_port)
 
 
